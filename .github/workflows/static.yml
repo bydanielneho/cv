@@ -1,4 +1,5 @@
-# Simple workflow for deploying static content to GitHub Pages
+# Builds the CV and deploys the static HTML (dist/) to GitHub Pages.
+# Only the built site is published, never the repository's source files.
 name: Deploy static content to Pages
 
 on:
@@ -22,7 +23,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
+  # Build, test, then deploy. Nothing is published if the accessibility
+  # checks fail.
   deploy:
     environment:
       name: github-pages
@@ -31,13 +33,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      # Builds the Word files and HTML into dist/, then runs the HTML and
+      # accessibility checks (using the Chrome preinstalled on the runner).
+      - name: Build and test
+        run: npm test
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
+          # Only the built site
+          path: dist
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
