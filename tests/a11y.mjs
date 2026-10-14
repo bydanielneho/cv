@@ -1,5 +1,4 @@
-// Runs axe-core against every built page for WCAG 2.2 A/AA, in light and dark
-// mode, and checks reflow at 320 CSS px (WCAG 1.4.10).
+// Runs axe-core against every built page for WCAG 2.2 A/AA and checks reflow at 320 CSS px (WCAG 1.4.10).
 import { chromium } from 'playwright-core';
 import { AxeBuilder } from '@axe-core/playwright';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -16,20 +15,28 @@ let failures = 0;
 
 for (const file of pages) {
   const url = pathToFileURL(join(dist, file)).href;
-  for (const colorScheme of ['light', 'dark']) {
-    const context = await browser.newContext({ colorScheme });
-    const page = await context.newPage();
-    await page.goto(url);
-    const { violations } = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'])
-      .analyze();
-    for (const v of violations) {
-      failures++;
-      console.error(`[${file}, ${colorScheme}] ${v.id}: ${v.help}\n  ${v.helpUrl}`);
-      for (const n of v.nodes) console.error(`    ${n.target.join(' ')}`);
-    }
-    await context.close();
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  await page.goto(url);
+  const { violations } = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'])
+    .analyze();
+  for (const v of violations) {
+    failures++;
+    console.error(`[${file}] ${v.id}: ${v.help}\n  ${v.helpUrl}`);
+    for (const n of v.nodes) console.error(`    ${n.target.join(' ')}`);
   }
+
+  // The web font must load, or the page silently falls back.
+  const fontLoaded = await page.evaluate(async () => {
+    await document.fonts.ready;
+    return [...document.fonts].some((f) => f.family.includes('Atkinson Hyperlegible Next') && f.status === 'loaded');
+  });
+  if (!fontLoaded) {
+    failures++;
+    console.error(`[${file}] Atkinson Hyperlegible Next did not load.`);
+  }
+  await context.close();
 
   const narrow = await browser.newPage({ viewport: { width: 320, height: 640 } });
   await narrow.goto(url);
@@ -46,4 +53,4 @@ if (failures) {
   console.error(`\n${failures} accessibility issue(s) found.`);
   process.exit(1);
 }
-console.log(`Checked ${pages.length} page(s): no axe violations (WCAG 2.2 A/AA + best practice) in light or dark mode; reflows at 320px.`);
+console.log(`Checked ${pages.length} page(s): no axe violations (WCAG 2.2 A/AA + best practice); font loads; reflows at 320px.`);

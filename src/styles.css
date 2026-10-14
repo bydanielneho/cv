@@ -1,46 +1,70 @@
 /*
- * CV styles. Brand colours and fonts are design tokens below — change them
- * here only. Every text/background pair must keep a contrast ratio of at
- * least 4.5:1 (3:1 for large text, focus indicators and UI borders) to stay
- * WCAG 2.2 AA. `npm test` checks this with axe in light and dark mode.
+ * CV styles: black text on white, no brand colours, set in Atkinson
+ * Hyperlegible Next (Braille Institute, SIL Open Font License — see
+ * fonts/OFL.txt), which was designed for legibility for low-vision readers.
+ *
+ * Sizes are in rem so they scale with the reader's browser text size and
+ * zoom (WCAG 1.4.4). Spacing is in em/unitless so it grows with the text and
+ * survives user text-spacing overrides (WCAG 1.4.12).
  */
-:root {
-  /* Brand tokens — placeholders until brand is supplied */
-  --color-bg: #ffffff;
-  --color-text: #1a1a1a;
-  --color-muted: #4d4d4d;      /* 8.4:1 on --color-bg */
-  --color-accent: #0b5394;     /* headings & rules, 7.6:1 */
-  --color-link: #0b5394;
-  --color-link-hover: #073763;
-  --color-focus: #b3410e;      /* focus ring, ≥3:1 against bg */
-  --color-rule: #767676;       /* 4.5:1, rules carry no meaning */
 
-  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-heading: var(--font-body);
-
-  --measure: 46rem;
-  --space: 1rem;
-  --line-height: 1.6;
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url(fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Latin Extended, including the macrons in te reo Māori (ā ē ī ō ū) */
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url(fonts/atkinson-hyperlegible-next-latin-ext-wght-normal.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  font-style: italic;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url(fonts/atkinson-hyperlegible-next-latin-wght-italic.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  font-style: italic;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url(fonts/atkinson-hyperlegible-next-latin-ext-wght-italic.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #121212;
-    --color-text: #ececec;
-    --color-muted: #b8b8b8;
-    --color-accent: #8ab4f8;
-    --color-link: #8ab4f8;
-    --color-link-hover: #c2d7fb;
-    --color-focus: #ffb366;
-    --color-rule: #8a8a8a;
-  }
+:root {
+  --color-bg: #ffffff;
+  --color-text: #000000;
+
+  --font-body: 'Atkinson Hyperlegible Next', Verdana, Tahoma, 'Segoe UI', system-ui, sans-serif;
+
+  /* Type scale. 1.125rem = 18px at the browser default. */
+  --text-base: 1.125rem;
+  --text-small: 1rem;
+  --text-h1: 2.25rem;
+  --text-h2: 1.625rem;
+  --text-h3: 1.3125rem;
+  --text-h4: 1.125rem;
+
+  --measure: 42rem;            /* about 70 characters per line */
+  --space: 1.25rem;
+  --line-height: 1.6;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
-  /* Respect user font-size settings (WCAG 1.4.4) */
-  font-size: 100%;
+  font-size: 100%;             /* respect the reader's text size setting */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
@@ -50,8 +74,11 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 400;
   line-height: var(--line-height);
   overflow-wrap: break-word;
+  font-kerning: normal;
 }
 
 main, .site-footer {
@@ -64,46 +91,49 @@ main { padding-block: calc(var(--space) * 2) var(--space); }
 main:focus { outline: none; }
 
 h1, h2, h3, h4 {
-  font-family: var(--font-heading);
+  font-weight: 700;
   line-height: 1.25;
-  margin-block: 1.5em 0.5em;
+  margin-block: 1.75em 0.5em;
 }
-h1 { font-size: 2.25rem; margin-top: 0; color: var(--color-accent); }
+h1 { font-size: var(--text-h1); margin-top: 0; }
 h2 {
-  font-size: 1.5rem;
-  color: var(--color-accent);
+  font-size: var(--text-h2);
   padding-bottom: 0.25em;
-  border-bottom: 2px solid var(--color-rule);
+  border-bottom: 2px solid var(--color-text);
 }
-h3 { font-size: 1.15rem; }
-h4 { font-size: 1rem; }
+h3 { font-size: var(--text-h3); margin-top: 1.5em; }
+h4 { font-size: var(--text-h4); margin-block: 1.5em 0.4em; }
 
 p, ul, ol, dl { margin-block: 0 1em; }
 ul, ol { padding-inline-start: 1.5em; }
-li + li { margin-top: 0.25em; }
+li + li { margin-top: 0.4em; }
+li::marker { font-size: 1em; }
 
-em { color: var(--color-muted); }
+strong { font-weight: 700; }
 
-hr { border: 0; border-top: 1px solid var(--color-rule); margin-block: 2em; }
+hr { border: 0; border-top: 1px solid var(--color-text); margin-block: 2em; }
 
 img { max-width: 100%; height: auto; }
 
 table { border-collapse: collapse; width: 100%; margin-block: 0 1em; }
-th, td { text-align: start; padding: 0.4em 0.6em; border-bottom: 1px solid var(--color-rule); }
+th, td { text-align: start; padding: 0.4em 0.6em; border-bottom: 1px solid var(--color-text); }
 
-/* Links are underlined so they don't rely on colour alone (WCAG 1.4.1) */
+/* Links are black like the text, so they're marked by an underline rather
+   than colour (WCAG 1.4.1). Hover thickens the underline. */
 a {
-  color: var(--color-link);
+  color: var(--color-text);
   text-decoration: underline;
-  text-underline-offset: 0.15em;
+  text-underline-offset: 0.18em;
   text-decoration-thickness: 0.08em;
 }
-a:hover { color: var(--color-link-hover); text-decoration-thickness: 0.15em; }
+a:hover { text-decoration-thickness: 0.18em; }
 
-/* Clearly visible focus indicator (WCAG 2.4.7 / 2.4.11) */
+/* Focus: thick black outline with a white gap, visible on any background
+   (WCAG 2.4.7, 2.4.13). */
 :focus-visible {
-  outline: 3px solid var(--color-focus);
-  outline-offset: 2px;
+  outline: 3px solid var(--color-text);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--color-bg);
   border-radius: 2px;
 }
 
@@ -114,8 +144,9 @@ a:hover { color: var(--color-link-hover); text-decoration-thickness: 0.15em; }
   z-index: 1;
   padding: 0.75em 1em;
   background: var(--color-bg);
-  color: var(--color-link);
-  border: 2px solid var(--color-link);
+  color: var(--color-text);
+  border: 2px solid var(--color-text);
+  font-weight: 700;
   transform: translateY(-200%);
 }
 .skip-link:focus { transform: none; }
@@ -129,31 +160,28 @@ a:hover { color: var(--color-link-hover); text-decoration-thickness: 0.15em; }
   white-space: nowrap;
 }
 
-.intro { margin-bottom: 1em; }
-.intro h1 { margin-bottom: 0.25em; }
+.intro { margin-bottom: 1.5em; }
+.intro h1 { margin-bottom: 0.3em; }
 
-.contact { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25em 1.25em; }
+.contact { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25em 1.5em; }
 .contact li + li { margin-top: 0; }
 /* Standalone links meet the 24×24px target size (WCAG 2.5.8) */
 .contact a { display: inline-block; min-height: 24px; }
 
 /* Organisation and dates beneath a role title */
-.role-meta { color: var(--color-muted); }
-h3 + .role-meta { margin-top: -0.25em; }
+.role-meta { margin-top: -0.25em; }
 
 .versions { list-style: none; padding: 0; }
-.versions h2 { border: 0; font-size: 1.25rem; margin-bottom: 0.25em; }
+.versions h2 { border: 0; margin-bottom: 0.25em; }
 .versions li + li { margin-top: 1.5em; }
 
 .site-footer {
   padding-block: var(--space) calc(var(--space) * 2);
-  color: var(--color-muted);
-  font-size: 0.9rem;
-  border-top: 1px solid var(--color-rule);
+  font-size: var(--text-small);
+  border-top: 1px solid var(--color-text);
 }
 .downloads { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.75em 1.5em; }
 .downloads li + li { margin-top: 0; }
-/* Standalone links meet the 24×24px target size (WCAG 2.5.8) */
 .downloads a { display: inline-block; min-height: 24px; padding-block: 0.25em; }
 .file-meta { white-space: nowrap; }
 
@@ -162,19 +190,14 @@ h3 + .role-meta { margin-top: -0.25em; }
 }
 
 @media print {
-  :root {
-    --color-bg: #fff;
-    --color-text: #000;
-    --color-muted: #333;
-    --color-accent: #000;
-    --color-link: #000;
-    --color-rule: #666;
-  }
-  body { font-size: 11pt; }
+  body { font-size: 11pt; line-height: 1.45; }
+  h1 { font-size: 20pt; }
+  h2 { font-size: 14pt; }
+  h3 { font-size: 12pt; }
+  h4 { font-size: 11pt; }
   main { padding: 0; max-width: none; }
   .skip-link, .downloads { display: none; }
   .site-footer { border: 0; padding: 0; }
-  h2, h3 { break-after: avoid; }
-  li, section > p { break-inside: avoid; }
-  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; }
+  h2, h3, h4 { break-after: avoid; }
+  li { break-inside: avoid; }
 }

@@ -198,6 +198,7 @@ async function main() {
   }
 
   await cp(join(root, 'src', 'styles.css'), join(distDir, 'styles.css'));
+  await cp(join(root, 'src', 'fonts'), join(distDir, 'fonts'), { recursive: true });
   if (existsSync(assetsDir)) {
     await cp(assetsDir, distDir, { recursive: true, filter: (p) => !p.endsWith('.gitkeep') });
   }
