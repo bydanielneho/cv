@@ -29,7 +29,7 @@ You need [Node.js](https://nodejs.org/) 20 or later and Git.
    ```
 
    It recreates every file in the [Files](#files) section, with its folder.
-   It should report 19 files.
+   It should report 20 files.
 4. Delete `cv-repo.md` and `unpack-cv.mjs`, then install, build and test:
 
    ```sh
@@ -50,13 +50,12 @@ You need [Node.js](https://nodejs.org/) 20 or later and Git.
    git push -u origin main
    ```
 
-6. Optional — publish with GitHub Pages. It's off until you opt in:
-   - Settings → Pages → Source: **GitHub Actions**.
-   - Settings → Secrets and variables → Actions → Variables → New
-     repository variable: `DEPLOY_PAGES` = `true`.
-   - Push to `main` (or re-run the workflow). The site is public once
-     deployed, so check the content first — `NOTES.md` holds your working
-     notes, and is in the repository but not on the site.
+6. Optional — publish with GitHub Pages: Settings → Pages → Source:
+   **GitHub Actions**. Then push to `main` (or run the "Deploy static
+   content to Pages" workflow from the Actions tab). It builds the site,
+   runs the accessibility tests and publishes only the built HTML, never
+   the source files such as `NOTES.md`. The site is public once deployed,
+   so check the content first.
 
 If you'd rather not run the script, you can create each file by hand: the
 heading above each block is the file's path, and the block is its exact
@@ -88,6 +87,8 @@ console.log(`Wrote ${count} files.`);
 ### File: `.github/workflows/site.yml`
 
 `````yaml
+# Builds and tests on every push and pull request. Deployment to GitHub
+# Pages is in static.yml.
 name: Build and test
 
 on:
@@ -110,27 +111,67 @@ jobs:
       - run: npm ci
       # Accessibility tests use the Chrome preinstalled on GitHub runners.
       - run: npm test
-      - uses: actions/upload-pages-artifact@v3
-        if: github.ref == 'refs/heads/main' && vars.DEPLOY_PAGES == 'true'
-        with:
-          path: dist
+`````
 
-  # Publishes to GitHub Pages from main. Off until you opt in: enable Pages
-  # with "GitHub Actions" as the source, then add a repository variable
-  # DEPLOY_PAGES = true (Settings → Secrets and variables → Actions).
+### File: `.github/workflows/static.yml`
+
+`````yaml
+# Builds the CV and deploys the static HTML (dist/) to GitHub Pages.
+# Only the built site is published, never the repository's source files.
+name: Deploy static content to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Build, test, then deploy. Nothing is published if the accessibility
+  # checks fail.
   deploy:
-    if: github.ref == 'refs/heads/main' && vars.DEPLOY_PAGES == 'true'
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
     steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      # Builds the Word files and HTML into dist/, then runs the HTML and
+      # accessibility checks (using the Chrome preinstalled on the runner).
+      - name: Build and test
+        run: npm test
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Only the built site
+          path: dist
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
 `````
 
 ### File: `.gitignore`
@@ -218,6 +259,15 @@ npm run build        # Word files, then HTML into dist/
 npm run serve        # preview at http://localhost:8080
 npm test             # build, validate HTML, run accessibility checks
 ```
+
+## Publishing
+
+`.github/workflows/static.yml` publishes to GitHub Pages on every push to
+`main`: it installs, builds and runs all the tests, then uploads only the
+built `dist/` folder. Nothing is published if a test fails, and source
+files such as `NOTES.md` are never published.
+
+To turn it on: Settings → Pages → Source: **GitHub Actions**.
 
 ## Accessibility
 

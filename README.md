@@ -23,6 +23,15 @@ npm run serve        # preview at http://localhost:8080
 npm test             # build, validate HTML, run accessibility checks
 ```
 
+## Publishing
+
+`.github/workflows/static.yml` publishes to GitHub Pages on every push to
+`main`: it installs, builds and runs all the tests, then uploads only the
+built `dist/` folder. Nothing is published if a test fails, and source
+files such as `NOTES.md` are never published.
+
+To turn it on: Settings → Pages → Source: **GitHub Actions**.
+
 ## Accessibility
 
 Built in:

@@ -1,3 +1,5 @@
+# Builds and tests on every push and pull request. Deployment to GitHub
+# Pages is in static.yml.
 name: Build and test
 
 on:
@@ -20,24 +22,3 @@ jobs:
       - run: npm ci
       # Accessibility tests use the Chrome preinstalled on GitHub runners.
       - run: npm test
-      - uses: actions/upload-pages-artifact@v3
-        if: github.ref == 'refs/heads/main' && vars.DEPLOY_PAGES == 'true'
-        with:
-          path: dist
-
-  # Publishes to GitHub Pages from main. Off until you opt in: enable Pages
-  # with "GitHub Actions" as the source, then add a repository variable
-  # DEPLOY_PAGES = true (Settings → Secrets and variables → Actions).
-  deploy:
-    if: github.ref == 'refs/heads/main' && vars.DEPLOY_PAGES == 'true'
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
