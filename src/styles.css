@@ -189,10 +189,6 @@ a:hover { text-decoration-thickness: 0.18em; }
 .downloads a { display: inline-block; min-height: 24px; padding-block: 0.25em; }
 .file-meta { white-space: nowrap; }
 
-@media (prefers-reduced-motion: no-preference) {
-  .skip-link { transition: transform 0.15s ease-out; }
-}
-
 @media print {
   body { font-size: 11pt; line-height: 1.45; }
   h1 { font-size: 20pt; }

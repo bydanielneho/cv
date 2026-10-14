@@ -46,18 +46,22 @@ Built in:
   in rem/em so it scales with the reader's text size and zoom.
 - 24×24px minimum targets for standalone links, and no sticky content that
   could hide focus.
-- Respects reduced motion; reflows to 320px (400% zoom) without horizontal
+- No animation; reflows to 320px (400% zoom) without horizontal
   scrolling and survives the WCAG 1.4.12 text-spacing overrides.
 - `|` separators are hidden from screen readers and read as a pause instead.
 - Print stylesheet for a clean paper or PDF copy.
 
-Checked automatically by `npm test`:
+Checked automatically by `npm test` on every page, at 1440, 1024, 768 and
+320px wide (320px = 400% zoom):
 
 - [html-validate](https://html-validate.org/) with its accessibility rules.
-- [axe-core](https://github.com/dequelabs/axe-core) for WCAG 2.0/2.1/2.2
-  A and AA plus best practice, on every page.
-- The web font actually loads.
-- Reflow at 320 CSS pixels.
+- [axe-core](https://github.com/dequelabs/axe-core): every rule, including
+  best practice and experimental rules, covering WCAG 2.0/2.1/2.2 A and AA.
+  The build fails on any violation and reports anything axe can't decide.
+- Keyboard: tabbing reaches every link, and each focused link is on screen,
+  not covered by other content, outlined and at least 24px tall.
+- No horizontal scrolling, including with WCAG text-spacing overrides.
+- Skip link and Contents links all point at real targets.
 
 Automated tools catch only part of WCAG. Before publishing, also check
 keyboard-only navigation, a screen reader (NVDA or VoiceOver), 200% text
