@@ -402,7 +402,6 @@ I provide communications and digital advice across the Ministry’s portfolio, w
 - Lead digital product management and continuous improvement for mcert.govt.nz, the Community Housing Regulatory Authority website (chra.hud.govt.nz) and hud.govt.nz
 - Responsible for a portfolio of more than 25 government websites, including transport.govt.nz
 - Leading the migration of stv.govt.nz into mcert.govt.nz, including the STV calculator
-- Worked on migrating local government websites into MCERT’s digital channels
 - Leading user acceptance testing for the transport.govt.nz Silverstripe 6.2 upgrade
 - Contributed to business cases, Statements of Work, risk assessments and delivery planning for website and digital service initiatives
 
@@ -580,7 +579,6 @@ I lead digital product management and continuous improvement for mcert.govt.nz a
 - Lead digital product management and continuous improvement for mcert.govt.nz, the Community Housing Regulatory Authority website (chra.hud.govt.nz) and hud.govt.nz
 - Responsible for a portfolio of more than 25 government websites, including transport.govt.nz
 - Leading the migration of stv.govt.nz into mcert.govt.nz, including the STV calculator
-- Worked on migrating local government websites into MCERT’s digital channels
 - Leading user acceptance testing for the transport.govt.nz Silverstripe 6.2 upgrade
 - Contributed to business cases, Statements of Work, risk assessments and delivery planning for website and digital service initiatives
 
@@ -1548,7 +1546,6 @@ const mcertDigital = () => [
   b('Lead digital product management and continuous improvement for mcert.govt.nz, the Community Housing Regulatory Authority website (chra.hud.govt.nz) and hud.govt.nz'),
   b('Responsible for a portfolio of more than 25 government websites, including transport.govt.nz'),
   b('Leading the migration of stv.govt.nz into mcert.govt.nz, including the STV calculator'),
-  b('Worked on migrating local government websites into MCERT’s digital channels'),
   b('Leading user acceptance testing for the transport.govt.nz Silverstripe 6.2 upgrade'),
   b('Contributed to business cases, Statements of Work, risk assessments and delivery planning for website and digital service initiatives'),
 
