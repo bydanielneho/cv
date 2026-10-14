@@ -185,8 +185,8 @@ async function main() {
     const stem = basename(file, '.md');
     const source = await readFile(join(contentDir, file), 'utf8');
     const content = renderCv(source);
-    // "Daniel Neho CV - Principal Digital" → title "Daniel Neho CV – Principal Digital",
-    // version "Principal Digital", page "principal-digital.html".
+    // "Daniel Neho CV - October 2026" → title "Daniel Neho CV – October 2026",
+    // version "October 2026", page "october-2026.html" (or index.html).
     const version = stem.includes(' - ') ? stem.split(' - ').pop() : stem;
     const href = files.length > 1 ? `${slugify(version)}.html` : 'index.html';
     const title = stem.replace(/ - /g, ' – ');
