@@ -195,7 +195,7 @@ const comms = [
 
   h1('Previous roles'),
   ...hudHeader(),
-  p('I led communications for major housing announcements and provided strategic advice to the Ministry, senior leaders and Ministers’ offices. Through a secondment to the Integration Management Office, I also led key digital and communications workstreams to establish MCERT.'),
+  p('I led communications for major housing announcements and provided strategic advice to the Ministry, senior leaders and Ministers’ offices. I also supported the Integration Management Office (IMO) to establish MCERT, leading key digital and communications workstreams.'),
 
   h3('Media and ministerial communications'),
   b('**Media lead: **regularly acted as media lead in the communications manager’s absence, managing the day’s media enquiries – live enquiries and proactive and reactive lines – working directly with journalists, subject matter experts and Ministers’ offices'),
@@ -209,7 +209,7 @@ const comms = [
   b('Designed and led the short-term actions factsheet'),
   b('Led internal communications while the role was vacant, and led communications for the Microsoft Copilot rollout'),
 
-  h3('Establishing MCERT (Integration Management Office secondment)'),
+  h3('Establishing MCERT (supporting the Integration Management Office)'),
   b('Led the MCERT website, intranet, social media and brand workstreams, delivering mcert.govt.nz and the MCERT intranet for launch on 1 July 2026'),
   b('Set up MCERT’s Facebook, X and LinkedIn channels, with a social media strategy, setup guides and a channel register'),
 
@@ -254,9 +254,9 @@ const digital = [
 
   h1('Previous roles'),
   ...hudHeader(),
-  p('I led digital and communications work for the Ministry and provided strategic advice to senior leaders. Through a secondment to the Integration Management Office, I led the digital channels needed to establish MCERT.'),
+  p('I led digital and communications work for the Ministry and provided strategic advice to senior leaders. I also supported the Integration Management Office (IMO) to establish MCERT, leading the digital channels the new Ministry needed.'),
 
-  h3('Establishing MCERT (Integration Management Office secondment)'),
+  h3('Establishing MCERT (supporting the Integration Management Office)'),
   b('**Website lead: **delivered mcert.govt.nz (Silverstripe 6) for launch on 1 July 2026, including GA4 and Google Tag Manager tracking'),
   b('**Intranet lead: **delivered the MCERT intranet for launch on 1 July 2026, including the information architecture and migration across six SharePoint subsites and about 45 pages of DIA local government content'),
   b('**Social media lead: **set up MCERT’s Facebook, X and LinkedIn channels, with a social media strategy, setup guides and a channel register'),

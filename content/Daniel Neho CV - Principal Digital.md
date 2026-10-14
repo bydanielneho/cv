@@ -82,9 +82,9 @@ I lead digital product management and continuous improvement for mcert.govt.nz a
 Te Tūāpapa Kura Kāinga – Ministry of Housing and Urban Development (HUD)  
 November 2024 to June 2026
 
-I led digital and communications work for the Ministry and provided strategic advice to senior leaders. Through a secondment to the Integration Management Office, I led the digital channels needed to establish MCERT.
+I led digital and communications work for the Ministry and provided strategic advice to senior leaders. I also supported the Integration Management Office (IMO) to establish MCERT, leading the digital channels the new Ministry needed.
 
-#### Establishing MCERT (Integration Management Office secondment)
+#### Establishing MCERT (supporting the Integration Management Office)
 
 - **Website lead:** delivered mcert.govt.nz (Silverstripe 6) for launch on 1 July 2026, including GA4 and Google Tag Manager tracking
 - **Intranet lead:** delivered the MCERT intranet for launch on 1 July 2026, including the information architecture and migration across six SharePoint subsites and about 45 pages of DIA local government content
