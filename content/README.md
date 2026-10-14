@@ -1,8 +1,8 @@
 # Content
 
 Each `*.md` file here (except this README) is one version of the CV. Only
-the version named by `current` in `cv.config.json` is published; the rest
-are kept here, ready to switch to. `npm run build:all` builds every version
+the versions listed under `pages` in `cv.config.json` are published; the
+rest are kept here, ready to switch to. `npm run build:all` builds every version
 for previewing locally.
 
 Structure rules (these keep the page accessible):

@@ -1,8 +1,8 @@
 // Builds static, accessible HTML pages from the Markdown in content/.
-// Only the CV named by "current" in cv.config.json is built, as index.html;
-// the other versions in content/ are kept but not published. With --all,
-// every version is built, each as its own page plus an index linking them,
-// for previewing locally.
+// The CVs listed under "pages" in cv.config.json are built, each as
+// <page name>.html (served at /<page name>), plus an index.html linking
+// them; the other versions in content/ are kept but not published. With
+// --all, every version is built, for previewing locally.
 import { readFile, writeFile, readdir, mkdir, rm, cp, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join, dirname, basename } from 'node:path';
@@ -164,15 +164,27 @@ async function main() {
     .sort();
   if (!versions.length) throw new Error('No Markdown files found in content/.');
 
-  let files = versions;
-  if (!process.argv.includes('--all') && config.current) {
-    if (!versions.includes(config.current)) {
-      throw new Error(`"current" in cv.config.json is "${config.current}", but there's no such file in content/. Versions: ${versions.join(', ')}`);
+  // Page name → Markdown file. With --all, every version gets a page.
+  let published;
+  if (process.argv.includes('--all') || !config.pages) {
+    published = Object.fromEntries(versions.map((f) => {
+      const stem = basename(f, '.md');
+      return [slugify(stem.includes(' - ') ? stem.split(' - ').pop() : stem), f];
+    }));
+  } else {
+    published = config.pages;
+    for (const [name, file] of Object.entries(published)) {
+      if (!/^[a-z0-9-]+$/.test(name) || name === 'index') {
+        throw new Error(`Page name "${name}" in cv.config.json must be lower-case letters, numbers and hyphens, and not "index".`);
+      }
+      if (!versions.includes(file)) {
+        throw new Error(`Page "${name}" in cv.config.json is "${file}", but there's no such file in content/. Versions: ${versions.join(', ')}`);
+      }
     }
-    files = [config.current];
-    const others = versions.filter((v) => v !== config.current);
+    const others = versions.filter((v) => !Object.values(published).includes(v));
     if (others.length) console.log(`Not published (kept in content/): ${others.join(', ')}`);
   }
+  const files = Object.values(published);
   const builtStems = new Set(files.map((f) => basename(f, '.md')));
 
   await rm(distDir, { recursive: true, force: true });
@@ -180,15 +192,15 @@ async function main() {
 
   const pages = [];
   let failed = false;
-  for (const file of files) {
+  for (const [name, file] of Object.entries(published)) {
     warnings = [];
     const stem = basename(file, '.md');
     const source = await readFile(join(contentDir, file), 'utf8');
     const content = renderCv(source);
     // "Daniel Neho CV - October 2026" → title "Daniel Neho CV – October 2026",
-    // version "October 2026", page "october-2026.html" (or index.html).
+    // version "October 2026".
     const version = stem.includes(' - ') ? stem.split(' - ').pop() : stem;
-    const href = files.length > 1 ? `${slugify(version)}.html` : 'index.html';
+    const href = `${name}.html`;
     const title = stem.replace(/ - /g, ' – ');
     const profile = content.match(/<h2 id="profile">[\s\S]*?<p>([\s\S]*?)<\/p>/)?.[1];
     const description = profile ? stripTags(profile) : config.description ?? '';
@@ -203,30 +215,29 @@ async function main() {
       downloads: downloadsHtml(await findDownloads(stem)),
     });
     await writeFile(join(distDir, href), page);
-    pages.push({ href, version, description });
+    // Linked without ".html": GitHub Pages serves /name from name.html.
+    pages.push({ href: name, version, description });
 
     for (const w of warnings) console.warn(`warning: ${file}: ${w}`);
     if (warnings.length) failed = true;
     console.log(`Built dist/${href} from ${file}`);
   }
 
-  if (files.length > 1) {
-    const name = config.author || 'CV';
-    const list = pages
-      .map((p) => `<li>\n<h2><a href="${p.href}">${escapeHtml(p.version)}</a></h2>\n<p>${escapeHtml(p.description)}</p>\n</li>`)
-      .join('\n');
-    const content = `<header class="intro">\n<h1>${escapeHtml(name)}</h1>\n<p>Choose a version of my CV.</p>\n</header>\n<ul class="versions">\n${list}\n</ul>`;
-    await writeFile(join(distDir, 'index.html'), fill({
-      ...common,
-      title: escapeHtml(`${name} – ${config.title}`),
-      description: escapeHtml(config.description ?? ''),
-      content,
-      toc: '',
-      layoutClass: 'layout',
-      downloads: '',
-    }));
-    console.log('Built dist/index.html (list of versions)');
-  }
+  const author = config.author || 'CV';
+  const list = pages
+    .map((p) => `<li>\n<h2><a href="${p.href}">${escapeHtml(p.version)}</a></h2>\n<p>${escapeHtml(p.description)}</p>\n</li>`)
+    .join('\n');
+  const content = `<header class="intro">\n<h1>${escapeHtml(author)}</h1>\n<p>Choose a version of my CV.</p>\n</header>\n<ul class="versions">\n${list}\n</ul>`;
+  await writeFile(join(distDir, 'index.html'), fill({
+    ...common,
+    title: escapeHtml(`${author} – ${config.title}`),
+    description: escapeHtml(config.description ?? ''),
+    content,
+    toc: '',
+    layoutClass: 'layout',
+    downloads: '',
+  }));
+  console.log('Built dist/index.html (list of versions)');
 
   await cp(join(root, 'src', 'styles.css'), join(distDir, 'styles.css'));
   if (existsSync(assetsDir)) {

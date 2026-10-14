@@ -13,7 +13,8 @@ const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 
 
 createServer(async (req, res) => {
   const path = normalize(decodeURIComponent(new URL(req.url, 'http://x').pathname)).replace(/^(\.\.[/\\])+/, '');
-  const file = join(dist, path.endsWith('/') ? `${path}index.html` : path);
+  // Like GitHub Pages: /name is served from name.html.
+  const file = join(dist, path.endsWith('/') ? `${path}index.html` : extname(path) ? path : `${path}.html`);
   try {
     const body = await readFile(file);
     res.writeHead(200, { 'Content-Type': types[extname(file)] ?? 'application/octet-stream' });
