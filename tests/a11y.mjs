@@ -27,15 +27,6 @@ for (const file of pages) {
     for (const n of v.nodes) console.error(`    ${n.target.join(' ')}`);
   }
 
-  // The web font must load, or the page silently falls back.
-  const fontLoaded = await page.evaluate(async () => {
-    await document.fonts.ready;
-    return [...document.fonts].some((f) => f.family.includes('Atkinson Hyperlegible Next') && f.status === 'loaded');
-  });
-  if (!fontLoaded) {
-    failures++;
-    console.error(`[${file}] Atkinson Hyperlegible Next did not load.`);
-  }
   await context.close();
 
   const narrow = await browser.newPage({ viewport: { width: 320, height: 640 } });
@@ -53,4 +44,4 @@ if (failures) {
   console.error(`\n${failures} accessibility issue(s) found.`);
   process.exit(1);
 }
-console.log(`Checked ${pages.length} page(s): no axe violations (WCAG 2.2 A/AA + best practice); font loads; reflows at 320px.`);
+console.log(`Checked ${pages.length} page(s): no axe violations (WCAG 2.2 A/AA + best practice); reflows at 320px.`);

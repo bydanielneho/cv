@@ -119,6 +119,20 @@ async function findDownloads(stem) {
   return found;
 }
 
+// Contents list linking to each "##" section. It sits before <main> so the
+// reading and tab order match the visual order (contents on the left).
+function tocHtml(content) {
+  const links = [...content.matchAll(/<h2 id="([^"]+)">(.*?)<\/h2>/g)]
+    .map(([, id, text]) => `        <li><a href="#${id}">${text}</a></li>`);
+  if (links.length < 2) return '';
+  return `    <nav class="toc" aria-labelledby="toc-heading">
+      <p id="toc-heading" class="toc-title">Contents</p>
+      <ul>
+${links.join('\n')}
+      </ul>
+    </nav>`;
+}
+
 function downloadsHtml(downloads) {
   if (!downloads.length) return '';
   const items = downloads
@@ -171,6 +185,8 @@ async function main() {
       title: escapeHtml(title),
       description: escapeHtml(description),
       content,
+      toc: tocHtml(content),
+      layoutClass: 'layout has-toc',
       downloads: downloadsHtml(await findDownloads(stem)),
     });
     await writeFile(join(distDir, href), page);
@@ -192,13 +208,14 @@ async function main() {
       title: escapeHtml(`${name} – ${config.title}`),
       description: escapeHtml(config.description ?? ''),
       content,
+      toc: '',
+      layoutClass: 'layout',
       downloads: '',
     }));
     console.log('Built dist/index.html (list of versions)');
   }
 
   await cp(join(root, 'src', 'styles.css'), join(distDir, 'styles.css'));
-  await cp(join(root, 'src', 'fonts'), join(distDir, 'fonts'), { recursive: true });
   if (existsSync(assetsDir)) {
     await cp(assetsDir, distDir, { recursive: true, filter: (p) => !p.endsWith('.gitkeep') });
   }

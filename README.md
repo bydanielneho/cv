@@ -9,8 +9,6 @@ from Markdown. No JavaScript is shipped to the browser.
 - `word/cv-build.cjs` — builds the Word versions into `assets/`.
 - `src/template.html`, `src/styles.css` — page template and styles. Type
   sizes are the tokens at the top of `styles.css`.
-- `src/fonts/` — self-hosted Atkinson Hyperlegible Next (SIL Open Font
-  License, see `OFL.txt`).
 - `assets/` — copied as-is into the site. A `.docx` or `.pdf` named the same
   as a Markdown file is linked from that page as a download.
 - `cv.config.json` — language, author and site description.
@@ -31,14 +29,19 @@ Built in:
 
 - Semantic landmarks, a skip link and one `<h1>` per page; each `##`
   section becomes a `<section>` labelled by its heading.
+- A Contents list of the `##` sections in a `<nav>`: in a column on the
+  left on wide screens (sticky, never overlapping the CV), above the CV on
+  narrow screens and when zoomed in. It comes before `<main>` in the source
+  so reading and tab order match what's on screen; the skip link jumps past
+  it. Hidden when printed.
 - The build fails if a page doesn't have exactly one `#` heading, skips a
   heading level, or has an image without alt text.
 - Raw HTML in Markdown is disabled, so the output stays semantic.
 - Black text on white (21:1 contrast), no brand colours. Links are black and
   underlined; focus is a thick black outline.
-- Atkinson Hyperlegible Next, designed by the Braille Institute for
-  low-vision readers, self-hosted so no third-party requests are made.
-  Includes Latin Extended for te reo Māori macrons.
+- Arial, which is already installed on almost every device, so no font
+  has to download. Falls back to metric-compatible Helvetica, Liberation
+  Sans or Arimo where Arial isn't available.
 - 18px body text with a 1.6 line height, about 70 characters per line, all
   in rem/em so it scales with the reader's text size and zoom.
 - 24×24px minimum targets for standalone links, and no sticky content that

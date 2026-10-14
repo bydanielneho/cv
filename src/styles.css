@@ -1,52 +1,18 @@
 /*
- * CV styles: black text on white, no brand colours, set in Atkinson
- * Hyperlegible Next (Braille Institute, SIL Open Font License — see
- * fonts/OFL.txt), which was designed for legibility for low-vision readers.
+ * CV styles: black text on white in Arial, a font already installed on
+ * almost every device so nothing has to download.
  *
  * Sizes are in rem so they scale with the reader's browser text size and
  * zoom (WCAG 1.4.4). Spacing is in em/unitless so it grows with the text and
  * survives user text-spacing overrides (WCAG 1.4.12).
  */
 
-@font-face {
-  font-family: 'Atkinson Hyperlegible Next';
-  font-style: normal;
-  font-weight: 200 800;
-  font-display: swap;
-  src: url(fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* Latin Extended, including the macrons in te reo Māori (ā ē ī ō ū) */
-@font-face {
-  font-family: 'Atkinson Hyperlegible Next';
-  font-style: normal;
-  font-weight: 200 800;
-  font-display: swap;
-  src: url(fonts/atkinson-hyperlegible-next-latin-ext-wght-normal.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Atkinson Hyperlegible Next';
-  font-style: italic;
-  font-weight: 200 800;
-  font-display: swap;
-  src: url(fonts/atkinson-hyperlegible-next-latin-wght-italic.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'Atkinson Hyperlegible Next';
-  font-style: italic;
-  font-weight: 200 800;
-  font-display: swap;
-  src: url(fonts/atkinson-hyperlegible-next-latin-ext-wght-italic.woff2) format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
 :root {
   --color-bg: #ffffff;
   --color-text: #000000;
 
-  --font-body: 'Atkinson Hyperlegible Next', Verdana, Tahoma, 'Segoe UI', system-ui, sans-serif;
+  /* Arial, then metric-compatible equivalents where Arial isn't installed */
+  --font-body: Arial, 'Helvetica Neue', Helvetica, 'Liberation Sans', Arimo, sans-serif;
 
   /* Type scale. 1.125rem = 18px at the browser default. */
   --text-base: 1.125rem;
@@ -57,6 +23,7 @@
   --text-h4: 1.125rem;
 
   --measure: 42rem;            /* about 70 characters per line */
+  --toc-width: 13rem;
   --space: 1.25rem;
   --line-height: 1.6;
 }
@@ -81,10 +48,46 @@ body {
   font-kerning: normal;
 }
 
-main, .site-footer {
+main, .site-footer, .toc {
   max-width: var(--measure);
   margin-inline: auto;
   padding-inline: var(--space);
+}
+
+/* Contents: above the CV on narrow screens and when zoomed in, in a
+   column on the left on wide screens. Breakpoint is in em so zooming in
+   switches to the single-column layout. */
+.toc { padding-top: calc(var(--space) * 2); font-size: var(--text-small); }
+.toc-title { font-weight: 700; margin-bottom: 0.5em; }
+.toc ul { list-style: none; padding: 0; margin: 0; border-left: 2px solid var(--color-text); }
+.toc li + li { margin-top: 0; }
+/* Each link is at least 24px tall (WCAG 2.5.8) */
+.toc a { display: block; min-height: 24px; padding: 0.3em 0 0.3em 0.9em; text-decoration-thickness: 0.06em; }
+
+@media (min-width: 64em) {
+  .layout.has-toc {
+    display: grid;
+    grid-template-columns: var(--toc-width) minmax(0, var(--measure));
+    column-gap: calc(var(--space) * 2);
+    justify-content: center;
+    align-items: start;
+    padding-inline: var(--space);
+  }
+  .has-toc > main, .has-toc > .site-footer, .has-toc > .toc {
+    max-width: none;
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+  .has-toc > .toc {
+    grid-row: 1 / span 2;
+    /* Stays in view while scrolling; it never overlaps the CV text, so it
+       can't hide focused content (WCAG 2.4.11). */
+    position: sticky;
+    top: 0;
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+  .has-toc > main, .has-toc > .site-footer { grid-column: 2; }
 }
 
 main { padding-block: calc(var(--space) * 2) var(--space); }
@@ -98,6 +101,7 @@ h1, h2, h3, h4 {
 h1 { font-size: var(--text-h1); margin-top: 0; }
 h2 {
   font-size: var(--text-h2);
+  scroll-margin-top: var(--space);   /* breathing room when jumped to from Contents */
   padding-bottom: 0.25em;
   border-bottom: 2px solid var(--color-text);
 }
@@ -195,8 +199,9 @@ a:hover { text-decoration-thickness: 0.18em; }
   h2 { font-size: 14pt; }
   h3 { font-size: 12pt; }
   h4 { font-size: 11pt; }
-  main { padding: 0; max-width: none; }
-  .skip-link, .downloads { display: none; }
+  main, .site-footer { padding: 0; max-width: none; }
+  .skip-link, .downloads, .toc { display: none; }
+  .layout.has-toc { display: block; padding: 0; }
   .site-footer { border: 0; padding: 0; }
   h2, h3, h4 { break-after: avoid; }
   li { break-inside: avoid; }
