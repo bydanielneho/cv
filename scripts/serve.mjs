@@ -16,7 +16,7 @@ createServer(async (req, res) => {
   const file = join(dist, path.endsWith('/') ? `${path}index.html` : path);
   try {
     const body = await readFile(file);
-    res.writeHead(200, { 'Content-Type': types[extname(file)] ?? 'application/octet-stream' });
+    res.writeHead(200, { 'Content-Type': types[extname(file)] ?? 'application/octet-stream', 'X-Robots-Tag': 'noindex, nofollow, noarchive' });
     res.end(body);
   } catch {
     res.writeHead(404).end('Not found');

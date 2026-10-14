@@ -113,6 +113,9 @@ for (const file of pages) {
       .map((a) => a.getAttribute('href'))
       .filter((h) => !document.getElementById(decodeURIComponent(h.slice(1)))));
   for (const h of broken) fail(file, `In-page link ${h} has no target.`);
+  // Hidden from search engines.
+  const robots = await page.getAttribute('meta[name="robots"]', 'content');
+  if (!robots?.includes('noindex')) fail(file, 'Missing <meta name="robots" content="noindex, ...">.');
   await context.close();
 }
 

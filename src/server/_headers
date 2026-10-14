@@ -1,0 +1,4 @@
+# Netlify and Cloudflare Pages: ask search engines not to index, follow or
+# cache anything on this site, including the Word and PDF downloads.
+/*
+  X-Robots-Tag: noindex, nofollow, noarchive

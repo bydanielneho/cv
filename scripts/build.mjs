@@ -229,6 +229,9 @@ async function main() {
   }
 
   await cp(join(root, 'src', 'styles.css'), join(distDir, 'styles.css'));
+  // Server config that tells search engines not to index anything on the
+  // site, including the Word and PDF downloads (which can't carry a meta tag).
+  for (const f of ['.htaccess', '_headers']) await cp(join(root, 'src', 'server', f), join(distDir, f));
   if (existsSync(assetsDir)) {
     // Word/PDF versions of CVs that aren't built stay unpublished too.
     const isOtherVersion = (p) => /\.(docx|pdf)$/i.test(p) && !builtStems.has(basename(p).replace(/\.(docx|pdf)$/i, ''));

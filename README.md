@@ -48,6 +48,33 @@ files such as `NOTES.md` are never published.
 
 To turn it on: Settings → Pages → Source: **GitHub Actions**.
 
+To host it on your own server (e.g. `cv.neho.co.nz`), run `npm run build`
+and upload the contents of `dist/`.
+
+## Hidden from search engines
+
+The site asks search engines not to index it, follow its links or keep a
+cached copy:
+
+- Every page has `<meta name="robots" content="noindex, nofollow, noarchive">`
+  (checked by `npm test`).
+- The Word and PDF downloads can't carry a meta tag, so the server should
+  also send an `X-Robots-Tag: noindex, nofollow, noarchive` header.
+  `dist/` includes `.htaccess` (Apache) and `_headers` (Netlify,
+  Cloudflare Pages), from `src/server/`. For nginx, add to the site's
+  `server` block:
+
+  ```nginx
+  add_header X-Robots-Tag "noindex, nofollow, noarchive" always;
+  ```
+
+  GitHub Pages can't set headers, so there only the meta tag applies.
+
+There's deliberately no `robots.txt` blocking crawlers: a crawler that's
+blocked never sees the noindex, and the URL can still be listed if
+another site links to it. This hides the CV from search results; it
+doesn't make it private. Anyone with the link can still open it.
+
 ## Accessibility
 
 Built in:
