@@ -175,10 +175,6 @@ a:hover { text-decoration-thickness: 0.18em; }
 /* Organisation and dates beneath a role title */
 .role-meta { margin-top: -0.25em; }
 
-.versions { list-style: none; padding: 0; }
-.versions h2 { border: 0; margin-bottom: 0.25em; }
-.versions li + li { margin-top: 1.5em; }
-
 .site-footer {
   padding-block: var(--space) calc(var(--space) * 2);
   font-size: var(--text-small);

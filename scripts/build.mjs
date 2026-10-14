@@ -1,7 +1,8 @@
 // Builds static, accessible HTML pages from the Markdown in content/.
 // The CVs listed under "pages" in cv.config.json are built, each as
-// <page name>.html (served at /<page name>), plus an index.html linking
-// them; the other versions in content/ are kept but not published. With
+// <page name>.html (served at /<page name>), plus a generic index.html
+// that doesn't link to any of them, so each CV is reachable only through
+// its own link; the other versions in content/ are kept but not published. With
 // --all, every version is built, for previewing locally.
 import { readFile, writeFile, readdir, mkdir, rm, cp, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
@@ -190,16 +191,13 @@ async function main() {
   await rm(distDir, { recursive: true, force: true });
   await mkdir(distDir, { recursive: true });
 
-  const pages = [];
   let failed = false;
   for (const [name, file] of Object.entries(published)) {
     warnings = [];
     const stem = basename(file, '.md');
     const source = await readFile(join(contentDir, file), 'utf8');
     const content = renderCv(source);
-    // "Daniel Neho CV - October 2026" → title "Daniel Neho CV – October 2026",
-    // version "October 2026".
-    const version = stem.includes(' - ') ? stem.split(' - ').pop() : stem;
+    // "Daniel Neho CV - October 2026" → title "Daniel Neho CV – October 2026".
     const href = `${name}.html`;
     const title = stem.replace(/ - /g, ' – ');
     const profile = content.match(/<h2 id="profile">[\s\S]*?<p>([\s\S]*?)<\/p>/)?.[1];
@@ -215,8 +213,6 @@ async function main() {
       downloads: downloadsHtml(await findDownloads(stem)),
     });
     await writeFile(join(distDir, href), page);
-    // Linked without ".html": GitHub Pages serves /name from name.html.
-    pages.push({ href: name, version, description });
 
     for (const w of warnings) console.warn(`warning: ${file}: ${w}`);
     if (warnings.length) failed = true;
@@ -224,10 +220,7 @@ async function main() {
   }
 
   const author = config.author || 'CV';
-  const list = pages
-    .map((p) => `<li>\n<h2><a href="${p.href}">${escapeHtml(p.version)}</a></h2>\n<p>${escapeHtml(p.description)}</p>\n</li>`)
-    .join('\n');
-  const content = `<header class="intro">\n<h1>${escapeHtml(author)}</h1>\n<p>Choose a version of my CV.</p>\n</header>\n<ul class="versions">\n${list}\n</ul>`;
+  const content = `<header class="intro">\n<h1>${escapeHtml(author)}</h1>\n<p>If you've been sent a link to my CV, please use that link to view it.</p>\n</header>`;
   await writeFile(join(distDir, 'index.html'), fill({
     ...common,
     title: escapeHtml(`${author} – ${config.title}`),
@@ -237,7 +230,7 @@ async function main() {
     layoutClass: 'layout',
     downloads: '',
   }));
-  console.log('Built dist/index.html (list of versions)');
+  console.log('Built dist/index.html (generic landing page)');
 
   await cp(join(root, 'src', 'styles.css'), join(distDir, 'styles.css'));
   if (existsSync(assetsDir)) {
