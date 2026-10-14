@@ -82,7 +82,7 @@ I provide communications and digital advice across the Ministry’s portfolio, w
 Te Tūāpapa Kura Kāinga – Ministry of Housing and Urban Development (HUD)  
 November 2024 to June 2026
 
-I led communications for major housing announcements and provided strategic advice to the Ministry, senior leaders and Ministers’ offices. I also supported the Integration Management Office (IMO) to establish MCERT, leading key digital and communications workstreams.
+I led communications for major housing announcements and provided strategic advice to the Ministry, senior leaders and Ministers’ offices. I also led key digital and communications workstreams to establish MCERT.
 
 #### Media and ministerial communications
 
@@ -98,7 +98,7 @@ I led communications for major housing announcements and provided strategic advi
 - Designed and led the short-term actions factsheet
 - Led internal communications while the role was vacant, and led communications for the Microsoft Copilot rollout
 
-#### Establishing MCERT (supporting the Integration Management Office)
+#### Establishing MCERT
 
 - Led the MCERT website, intranet, social media and brand workstreams, delivering mcert.govt.nz and the MCERT intranet for launch on 1 July 2026
 - Set up MCERT’s Facebook, X and LinkedIn channels, with a social media strategy, setup guides and a channel register
