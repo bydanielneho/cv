@@ -6,7 +6,8 @@ from Markdown. No JavaScript is shipped to the browser.
 - `content/*.md` — the CV versions. Only one is published at a time: the
   one named by `current` in `cv.config.json`, which becomes `index.html`.
   The others stay in `content/`, unpublished, ready to switch to.
-- `word/cv-build.cjs` — builds the Word versions into `assets/`.
+- `word/cv-build.cjs` — builds a Word version of each CV from the same
+  Markdown, into `assets/`.
 - `src/template.html`, `src/styles.css` — page template and styles. Type
   sizes are the tokens at the top of `styles.css`.
 - `assets/` — copied as-is into the site. A `.docx` or `.pdf` named the same

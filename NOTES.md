@@ -8,7 +8,7 @@ Last updated: 14 October 2026
 |---|---|
 | `content/Daniel Neho CV - Principal Advisor Communications.md` | CV aimed at Principal Advisor roles in external communications |
 | `content/Daniel Neho CV - Principal Digital.md` | CV aimed at Principal Digital roles |
-| `word/cv-build.cjs` | Node script (`docx` package) that builds both Word files. Run `npm run build:word` to regenerate them into `assets/`. Generated .docx files are not committed |
+| `word/cv-build.cjs` | Builds a Word file for each CV from the Markdown (`npm run build:word`, into `assets/`). Generated .docx files are not committed |
 
 ## Structure of both CVs
 

@@ -1,16 +1,13 @@
 # Word version
 
-Place the JavaScript used to generate the Word (`.docx`) version of the CV
-here. It should read the same Markdown in `content/` so both versions stay in
-sync.
+`cv-build.cjs` builds a Word (`.docx`) file for every CV in `content/`,
+from the same Markdown as the HTML, so the two versions always match. Edit
+the Markdown only; never the Word file.
 
-To offer the generated files for download from the HTML page, add them to
-`downloads` in `cv.config.json`, e.g.:
-
-```json
-"downloads": [
-  { "label": "Download CV (Word, 40 KB)", "href": "cv.docx" }
-]
+```sh
+npm run build:word
 ```
 
-Files listed there are expected in `assets/` and are copied to `dist/`.
+The files are written to `assets/` (not committed), named after the
+Markdown file. The HTML page for the current CV links to its Word file as a
+download automatically.
