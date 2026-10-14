@@ -384,9 +384,8 @@ I provide communications and digital advice across the Ministry’s portfolio, w
 
 #### Digital product management and delivery
 
-- Lead digital product management and continuous improvement for mcert.govt.nz
+- Lead digital product management and continuous improvement for mcert.govt.nz, the Community Housing Regulatory Authority website (chra.hud.govt.nz) and hud.govt.nz
 - Responsible for a portfolio of more than 25 government websites, including transport.govt.nz
-- Launching the new Community Housing Regulatory Authority (CHRA) register on 21 October 2026, rebuilding a static register of about 95 providers into individual provider pages
 - Leading the migration of stv.govt.nz into mcert.govt.nz, including the STV calculator
 - Leading the decommission of ata.govt.nz
 - Leading user acceptance testing for the transport.govt.nz Silverstripe 6.2 upgrade
@@ -564,9 +563,8 @@ I lead digital product management and continuous improvement for mcert.govt.nz a
 
 #### Digital product management and delivery
 
-- Lead digital product management and continuous improvement for mcert.govt.nz
+- Lead digital product management and continuous improvement for mcert.govt.nz, the Community Housing Regulatory Authority website (chra.hud.govt.nz) and hud.govt.nz
 - Responsible for a portfolio of more than 25 government websites, including transport.govt.nz
-- Launching the new Community Housing Regulatory Authority (CHRA) register on 21 October 2026, rebuilding a static register of about 95 providers into individual provider pages
 - Leading the migration of stv.govt.nz into mcert.govt.nz, including the STV calculator
 - Leading the decommission of ata.govt.nz
 - Leading user acceptance testing for the transport.govt.nz Silverstripe 6.2 upgrade
@@ -1517,9 +1515,8 @@ const mcertDigital = () => [
   b('Designed an interim release management process to protect the quarterly vendor support retainer'),
 
   h3('Digital product management and delivery'),
-  b('Lead digital product management and continuous improvement for mcert.govt.nz'),
+  b('Lead digital product management and continuous improvement for mcert.govt.nz, the Community Housing Regulatory Authority website (chra.hud.govt.nz) and hud.govt.nz'),
   b('Responsible for a portfolio of more than 25 government websites, including transport.govt.nz'),
-  b('Launching the new Community Housing Regulatory Authority (CHRA) register on 21 October 2026, rebuilding a static register of about 95 providers into individual provider pages'),
   b('Leading the migration of stv.govt.nz into mcert.govt.nz, including the STV calculator'),
   b('Leading the decommission of ata.govt.nz'),
   b('Leading user acceptance testing for the transport.govt.nz Silverstripe 6.2 upgrade'),
