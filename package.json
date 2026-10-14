@@ -1,0 +1,26 @@
+{
+  "name": "cv",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static, accessible (WCAG 2.2 AA) HTML version of my CV, built from Markdown.",
+  "type": "module",
+  "scripts": {
+    "build": "npm run build:word && npm run build:html",
+    "build:html": "node scripts/build.mjs --strict",
+    "build:word": "node -e \"process.chdir('assets');require('./word/cv-build.cjs')\"",
+    "serve": "node scripts/serve.mjs",
+    "test:html": "html-validate \"dist/**/*.html\"",
+    "test:a11y": "node tests/a11y.mjs",
+    "test": "npm run build && npm run test:html && npm run test:a11y"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "docx": "^9.11.0",
+    "html-validate": "^11.16.2",
+    "markdown-it": "^15.0.2",
+    "playwright-core": "^1.64.0"
+  }
+}
