@@ -104,7 +104,6 @@ I led communications for major housing announcements and provided strategic advi
 
 #### Digital, publications and design
 
-- Led the redevelopment of the CHRA website
 - Managed production of the annual report, and designed the GPS-HUD and Housing Investment Plan publications
 - Led the redevelopment of the secondary legislation section of hud.govt.nz, and completed accessibility improvements in April 2026
 

@@ -213,7 +213,6 @@ const comms = [
   b('Set up MCERT’s Facebook, X and LinkedIn channels, with a social media strategy, setup guides and a channel register'),
 
   h3('Digital, publications and design'),
-  b('Led the redevelopment of the CHRA website'),
   b('Managed production of the annual report, and designed the GPS-HUD and Housing Investment Plan publications'),
   b('Led the redevelopment of the secondary legislation section of hud.govt.nz, and completed accessibility improvements in April 2026'),
 
@@ -260,11 +259,9 @@ const digital = [
   b('**Intranet lead: **delivered the MCERT intranet for launch on 1 July 2026, including the information architecture and migration across six SharePoint subsites and about 45 pages of DIA local government content'),
   b('**Social media lead: **set up MCERT’s Facebook, X and LinkedIn channels, with a social media strategy, setup guides and a channel register'),
   b('**Brand lead **for MCERT'),
-  b('Planned the hud.govt.nz decommission and migration, including moving analytics to GA4'),
   b('Introduced content ownership and automated review reminders across the intranet'),
 
   h3('Website delivery and digital BAU'),
-  b('Led the redevelopment of the CHRA website'),
   b('Led the redevelopment of the secondary legislation section of hud.govt.nz'),
   b('Managed digital BAU, including the housing dashboards, the delivery dashboard and the homelessness insights report'),
   b('Contributed to digital processes and strategy'),
