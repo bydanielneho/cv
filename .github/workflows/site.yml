@@ -21,14 +21,15 @@ jobs:
       # Accessibility tests use the Chrome preinstalled on GitHub runners.
       - run: npm test
       - uses: actions/upload-pages-artifact@v3
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && vars.DEPLOY_PAGES == 'true'
         with:
           path: dist
 
-  # Publishes to GitHub Pages from main. Does nothing until Pages is enabled
-  # in the repository settings with "GitHub Actions" as the source.
+  # Publishes to GitHub Pages from main. Off until you opt in: enable Pages
+  # with "GitHub Actions" as the source, then add a repository variable
+  # DEPLOY_PAGES = true (Settings → Secrets and variables → Actions).
   deploy:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && vars.DEPLOY_PAGES == 'true'
     needs: build
     runs-on: ubuntu-latest
     permissions:
