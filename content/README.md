@@ -1,8 +1,9 @@
 # Content
 
-Put your CV Markdown files here. Every `*.md` file in this folder (except this
-README) is rendered, in filename order, into a single page. Prefix files with
-numbers to control the order, e.g. `01-profile.md`, `02-experience.md`.
+Each `*.md` file here (except this README) is one version of the CV. Only
+the version named by `current` in `cv.config.json` is published; the rest
+are kept here, ready to switch to. `npm run build:all` builds every version
+for previewing locally.
 
 Structure rules (these keep the page accessible):
 

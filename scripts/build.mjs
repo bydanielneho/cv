@@ -1,6 +1,8 @@
 // Builds static, accessible HTML pages from the Markdown in content/.
-// Each content/*.md file becomes its own page; with more than one CV an
-// index.html links to each version.
+// Only the CV named by "current" in cv.config.json is built, as index.html;
+// the other versions in content/ are kept but not published. With --all,
+// every version is built, each as its own page plus an index linking them,
+// for previewing locally.
 import { readFile, writeFile, readdir, mkdir, rm, cp, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join, dirname, basename } from 'node:path';
@@ -157,10 +159,21 @@ async function main() {
     authorMeta: config.author ? `<meta name="author" content="${escapeHtml(config.author)}">` : '',
   };
 
-  const files = (await readdir(contentDir))
+  const versions = (await readdir(contentDir))
     .filter((f) => f.endsWith('.md') && f.toLowerCase() !== 'readme.md')
     .sort();
-  if (!files.length) throw new Error('No Markdown files found in content/.');
+  if (!versions.length) throw new Error('No Markdown files found in content/.');
+
+  let files = versions;
+  if (!process.argv.includes('--all') && config.current) {
+    if (!versions.includes(config.current)) {
+      throw new Error(`"current" in cv.config.json is "${config.current}", but there's no such file in content/. Versions: ${versions.join(', ')}`);
+    }
+    files = [config.current];
+    const others = versions.filter((v) => v !== config.current);
+    if (others.length) console.log(`Not published (kept in content/): ${others.join(', ')}`);
+  }
+  const builtStems = new Set(files.map((f) => basename(f, '.md')));
 
   await rm(distDir, { recursive: true, force: true });
   await mkdir(distDir, { recursive: true });
@@ -217,7 +230,9 @@ async function main() {
 
   await cp(join(root, 'src', 'styles.css'), join(distDir, 'styles.css'));
   if (existsSync(assetsDir)) {
-    await cp(assetsDir, distDir, { recursive: true, filter: (p) => !p.endsWith('.gitkeep') });
+    // Word/PDF versions of CVs that aren't built stay unpublished too.
+    const isOtherVersion = (p) => /\.(docx|pdf)$/i.test(p) && !builtStems.has(basename(p).replace(/\.(docx|pdf)$/i, ''));
+    await cp(assetsDir, distDir, { recursive: true, filter: (p) => !p.endsWith('.gitkeep') && !isOtherVersion(p) });
   }
 
   if (failed && process.argv.includes('--strict')) process.exit(1);

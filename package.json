@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "npm run build:word && npm run build:html",
+    "build:all": "npm run build:word && node scripts/build.mjs --strict --all",
     "build:html": "node scripts/build.mjs --strict",
     "build:word": "node -e \"process.chdir('assets');require('./word/cv-build.cjs')\"",
     "serve": "node scripts/serve.mjs",

@@ -240,25 +240,40 @@ The goal is a digital-first CV: an HTML version built from these Markdown files.
 A completely static, accessible (WCAG 2.2 AA) HTML version of my CV, built
 from Markdown. No JavaScript is shipped to the browser.
 
-- `content/*.md` — the CV content. Each file becomes its own page, e.g.
-  `Daniel Neho CV - Principal Digital.md` → `principal-digital.html`. With
-  more than one CV, `index.html` links to each version.
+- `content/*.md` — the CV versions. Only one is published at a time: the
+  one named by `current` in `cv.config.json`, which becomes `index.html`.
+  The others stay in `content/`, unpublished, ready to switch to.
 - `word/cv-build.cjs` — builds the Word versions into `assets/`.
 - `src/template.html`, `src/styles.css` — page template and styles. Type
   sizes are the tokens at the top of `styles.css`.
 - `assets/` — copied as-is into the site. A `.docx` or `.pdf` named the same
   as a Markdown file is linked from that page as a download.
-- `cv.config.json` — language, author and site description.
+- `cv.config.json` — which CV version is `current`, plus language, author
+  and site description.
 - `NOTES.md` — working notes on the CV content.
 
 ## Commands
 
 ```sh
 npm install
-npm run build        # Word files, then HTML into dist/
+npm run build        # Word files, then the current CV as HTML into dist/
+npm run build:all    # every version, for previewing locally (don't publish)
 npm run serve        # preview at http://localhost:8080
 npm test             # build, validate HTML, run accessibility checks
 ```
+
+## Switching CV version
+
+Change `current` in `cv.config.json` to the file name of another version
+in `content/`, e.g.
+
+```json
+"current": "Daniel Neho CV - Principal Advisor Communications.md"
+```
+
+To start a new version, copy an existing file in `content/`, give it a new
+name, edit it, and point `current` at it. Only the current version — and
+its Word file — is published.
 
 ## Publishing
 
@@ -717,9 +732,10 @@ Available on request.
 `````markdown
 # Content
 
-Put your CV Markdown files here. Every `*.md` file in this folder (except this
-README) is rendered, in filename order, into a single page. Prefix files with
-numbers to control the order, e.g. `01-profile.md`, `02-experience.md`.
+Each `*.md` file here (except this README) is one version of the CV. Only
+the version named by `current` in `cv.config.json` is published; the rest
+are kept here, ready to switch to. `npm run build:all` builds every version
+for previewing locally.
 
 Structure rules (these keep the page accessible):
 
@@ -737,6 +753,7 @@ Structure rules (these keep the page accessible):
 
 `````json
 {
+  "current": "Daniel Neho CV - Principal Digital.md",
   "lang": "en-NZ",
   "author": "Daniel Neho",
   "title": "CV",
@@ -755,6 +772,7 @@ Structure rules (these keep the page accessible):
   "type": "module",
   "scripts": {
     "build": "npm run build:word && npm run build:html",
+    "build:all": "npm run build:word && node scripts/build.mjs --strict --all",
     "build:html": "node scripts/build.mjs --strict",
     "build:word": "node -e \"process.chdir('assets');require('./word/cv-build.cjs')\"",
     "serve": "node scripts/serve.mjs",
@@ -780,8 +798,10 @@ Structure rules (these keep the page accessible):
 
 `````js
 // Builds static, accessible HTML pages from the Markdown in content/.
-// Each content/*.md file becomes its own page; with more than one CV an
-// index.html links to each version.
+// Only the CV named by "current" in cv.config.json is built, as index.html;
+// the other versions in content/ are kept but not published. With --all,
+// every version is built, each as its own page plus an index linking them,
+// for previewing locally.
 import { readFile, writeFile, readdir, mkdir, rm, cp, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join, dirname, basename } from 'node:path';
@@ -938,10 +958,21 @@ async function main() {
     authorMeta: config.author ? `<meta name="author" content="${escapeHtml(config.author)}">` : '',
   };
 
-  const files = (await readdir(contentDir))
+  const versions = (await readdir(contentDir))
     .filter((f) => f.endsWith('.md') && f.toLowerCase() !== 'readme.md')
     .sort();
-  if (!files.length) throw new Error('No Markdown files found in content/.');
+  if (!versions.length) throw new Error('No Markdown files found in content/.');
+
+  let files = versions;
+  if (!process.argv.includes('--all') && config.current) {
+    if (!versions.includes(config.current)) {
+      throw new Error(`"current" in cv.config.json is "${config.current}", but there's no such file in content/. Versions: ${versions.join(', ')}`);
+    }
+    files = [config.current];
+    const others = versions.filter((v) => v !== config.current);
+    if (others.length) console.log(`Not published (kept in content/): ${others.join(', ')}`);
+  }
+  const builtStems = new Set(files.map((f) => basename(f, '.md')));
 
   await rm(distDir, { recursive: true, force: true });
   await mkdir(distDir, { recursive: true });
@@ -998,7 +1029,9 @@ async function main() {
 
   await cp(join(root, 'src', 'styles.css'), join(distDir, 'styles.css'));
   if (existsSync(assetsDir)) {
-    await cp(assetsDir, distDir, { recursive: true, filter: (p) => !p.endsWith('.gitkeep') });
+    // Word/PDF versions of CVs that aren't built stay unpublished too.
+    const isOtherVersion = (p) => /\.(docx|pdf)$/i.test(p) && !builtStems.has(basename(p).replace(/\.(docx|pdf)$/i, ''));
+    await cp(assetsDir, distDir, { recursive: true, filter: (p) => !p.endsWith('.gitkeep') && !isOtherVersion(p) });
   }
 
   if (failed && process.argv.includes('--strict')) process.exit(1);

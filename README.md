@@ -3,25 +3,40 @@
 A completely static, accessible (WCAG 2.2 AA) HTML version of my CV, built
 from Markdown. No JavaScript is shipped to the browser.
 
-- `content/*.md` — the CV content. Each file becomes its own page, e.g.
-  `Daniel Neho CV - Principal Digital.md` → `principal-digital.html`. With
-  more than one CV, `index.html` links to each version.
+- `content/*.md` — the CV versions. Only one is published at a time: the
+  one named by `current` in `cv.config.json`, which becomes `index.html`.
+  The others stay in `content/`, unpublished, ready to switch to.
 - `word/cv-build.cjs` — builds the Word versions into `assets/`.
 - `src/template.html`, `src/styles.css` — page template and styles. Type
   sizes are the tokens at the top of `styles.css`.
 - `assets/` — copied as-is into the site. A `.docx` or `.pdf` named the same
   as a Markdown file is linked from that page as a download.
-- `cv.config.json` — language, author and site description.
+- `cv.config.json` — which CV version is `current`, plus language, author
+  and site description.
 - `NOTES.md` — working notes on the CV content.
 
 ## Commands
 
 ```sh
 npm install
-npm run build        # Word files, then HTML into dist/
+npm run build        # Word files, then the current CV as HTML into dist/
+npm run build:all    # every version, for previewing locally (don't publish)
 npm run serve        # preview at http://localhost:8080
 npm test             # build, validate HTML, run accessibility checks
 ```
+
+## Switching CV version
+
+Change `current` in `cv.config.json` to the file name of another version
+in `content/`, e.g.
+
+```json
+"current": "Daniel Neho CV - Principal Advisor Communications.md"
+```
+
+To start a new version, copy an existing file in `content/`, give it a new
+name, edit it, and point `current` at it. Only the current version — and
+its Word file — is published.
 
 ## Publishing
 
