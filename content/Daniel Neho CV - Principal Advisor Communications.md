@@ -1,6 +1,6 @@
 # Daniel Neho
 
-Wellington, NZ
+Wellington, NZ | +64 27 258 9289 | daniel.neho@hotmail.com
 
 ## Profile
 

@@ -5,8 +5,6 @@ GitHub repository. It holds every source file; the build output
 (`dist/`), `node_modules/` and the generated Word files are left out
 because they're rebuilt from these.
 
-Your phone number and email are not in any of these files.
-
 ## Contents
 
 1. [Set up the new repository](#set-up-the-new-repository)
@@ -340,7 +338,7 @@ zoom and the text spacing bookmarklet.
 `````markdown
 # Daniel Neho
 
-Wellington, NZ
+Wellington, NZ | +64 27 258 9289 | daniel.neho@hotmail.com
 
 ## Profile
 
@@ -530,7 +528,7 @@ Available on request.
 `````markdown
 # Daniel Neho
 
-Wellington, NZ
+Wellington, NZ | +64 27 258 9289 | daniel.neho@hotmail.com
 
 ## Profile
 
