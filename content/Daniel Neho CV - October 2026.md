@@ -4,11 +4,11 @@ Wellington, NZ | +64 27 258 9289 | daniel.neho@hotmail.com
 
 ## Profile
 
-I’m a senior digital and communications advisor with more than seven years in the New Zealand public sector. My work spans websites, intranets, content design, accessibility and communications.
+I’m a senior digital and communications advisor with more than seven years in the New Zealand public sector, across MSD, Kāinga Ora, the Office of the Ombudsman, HUD and MCERT. I bring digital channels, content and communications together so people can find, understand and trust government information.
 
-I led the website, intranet, social media and brand work that launched MCERT’s digital channels on 1 July 2026, and I now manage a portfolio of more than 25 government websites. I combine hands-on delivery – content management systems, analytics, accessibility and vendor management – with digital strategy, governance, and the communication skills to bring senior leaders and teams with me.
+My career has moved from content into strategy. At MSD and Kāinga Ora I built content strategies, knowledge bases and governance for websites and intranets. At the Office of the Ombudsman and HUD I led strategic communications and media for high-risk and high-profile announcements, including Budget 2026, advising the Chief Ombudsman and senior leaders and working closely with Ministers’ offices. During the set-up of MCERT I led the website, intranet, social media and brand that launched on 1 July 2026, and I now shape how the Ministry governs and invests in a portfolio of more than 25 websites.
 
-I’m ready for a principal role: setting digital direction, owning governance and standards, and developing the people around me.
+In every role I’ve championed accessibility and plain language, built the processes and governance that make good practice last, and coached the people around me. I’m ready for a principal role: setting digital direction, owning governance and standards, and developing others.
 
 ## Key strengths
 
