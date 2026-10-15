@@ -101,8 +101,12 @@ function wrapSections(html) {
   return introHtml + sections.join('\n');
 }
 
+// <!-- notes --> are reminders for the author. Raw HTML is disabled, so
+// they'd otherwise show as text; remove them before rendering.
+const stripComments = (s) => s.replace(/[ \t]*<!--[\s\S]*?-->/g, '');
+
 function renderCv(source) {
-  let html = contactList(md.render(source));
+  let html = contactList(md.render(stripComments(source)));
   html = html.replace(/ \| /g, separator);
   return wrapSections(html);
 }

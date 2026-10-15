@@ -65,8 +65,11 @@ const bullet = (t) => new Paragraph({
 
 const oneLine = (s) => s.replace(/\s*\n\s*/g, ' ');
 
+// <!-- notes --> are reminders for the author, not part of the CV.
+const stripComments = (s) => s.replace(/[ \t]*<!--[\s\S]*?-->/g, '');
+
 function toParagraphs(markdown) {
-  const blocks = markdown.replace(/\r\n/g, '\n').trim().split(/\n\s*\n/);
+  const blocks = stripComments(markdown.replace(/\r\n/g, '\n')).trim().split(/\n\s*\n/).filter((b) => b.trim());
   const out = [];
   let afterName = false;
   let afterRole = false;
