@@ -8,8 +8,6 @@ I’m a senior communications advisor with more than seven years in the New Zeal
 
 I regularly step up as media lead, handling live and reactive media alongside planned announcements. I lead across agencies, manage reputational risk calmly and at pace, and bring a strong digital background, so my communications plans are delivered across every channel.
 
-I’m ready for a principal role: owning the strategy, advising senior leaders and Ministers’ offices, and developing the people around me.
-
 ## Key strengths
 
 - Strategic communications planning for major and sensitive announcements

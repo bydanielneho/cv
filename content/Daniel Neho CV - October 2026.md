@@ -8,7 +8,7 @@ I’m a senior digital and communications advisor with more than seven years in 
 
 My career has moved from content into strategy. At MSD and Kāinga Ora I built content strategies, knowledge bases and governance for websites and intranets. At the Office of the Ombudsman and HUD I led strategic communications and media for high-risk and high-profile announcements, including Budget 2026, advising the Chief Ombudsman and senior leaders and working closely with Ministers’ offices. During the set-up of MCERT I led the website, intranet, social media and brand that launched on 1 July 2026, and I now shape how the Ministry governs and invests in a portfolio of more than 25 websites.
 
-In every role I’ve championed accessibility and plain language, built the processes and governance that make good practice last, and coached the people around me. I’m ready for a principal role: setting digital direction, owning governance and standards, and developing others.
+In every role I’ve championed accessibility and plain language, built the processes and governance that make good practice last, and coached the people around me.
 
 ## Key strengths
 
